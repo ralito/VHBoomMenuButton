@@ -182,15 +182,15 @@
         {
             CGFloat a = (2 * radius + dotInclinedMargin) / sqrt(2);
             [positions addObject:[NSValue valueWithCGPoint:CGPointMake(0,
-                                                                       0)]];
+                                                                       -a*1.4)]];
             [positions addObject:[NSValue valueWithCGPoint:CGPointMake(a,
-                                                                       -a)]];
-            [positions addObject:[NSValue valueWithCGPoint:CGPointMake(a,
+                                                                       -a*0.4)]];
+            [positions addObject:[NSValue valueWithCGPoint:CGPointMake(a*0.7,
+                                                                       a)]];
+            [positions addObject:[NSValue valueWithCGPoint:CGPointMake(-a*0.7,
                                                                        a)]];
             [positions addObject:[NSValue valueWithCGPoint:CGPointMake(-a,
-                                                                       a)]];
-            [positions addObject:[NSValue valueWithCGPoint:CGPointMake(-a,
-                                                                       -a)]];
+                                                                       -a*0.4)]];
         }
             break;
         case VHPiecePlace_DOT_6_1:

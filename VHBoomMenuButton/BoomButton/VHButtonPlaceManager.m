@@ -256,15 +256,15 @@
             break;
         case VHButtonPlace_SC_5_4:
         {
-            [positions addObject:[NSValue valueWithCGPoint:CGPointMake(-buttonHorizontalMargin - width,
+            [positions addObject:[NSValue valueWithCGPoint:CGPointMake(-buttonHorizontalMargin - width*0.9,
                                                                        -buttonVerticalMargin / 2 - height / 2)]];
-            [positions addObject:[NSValue valueWithCGPoint:CGPointMake(buttonHorizontalMargin + width,
+            [positions addObject:[NSValue valueWithCGPoint:CGPointMake(buttonHorizontalMargin + width*0.9,
                                                                        -buttonVerticalMargin / 2 - height / 2)]];
             [positions addObject:[NSValue valueWithCGPoint:CGPointMake(0,
-                                                                       0)]];
-            [positions addObject:[NSValue valueWithCGPoint:CGPointMake(-buttonHorizontalMargin - width,
+                                                                       - buttonVerticalMargin / 2 - height*1.1)]];
+            [positions addObject:[NSValue valueWithCGPoint:CGPointMake(-buttonHorizontalMargin - width/1.8,
                                                                        buttonVerticalMargin / 2 + height / 2)]];
-            [positions addObject:[NSValue valueWithCGPoint:CGPointMake(buttonHorizontalMargin + width,
+            [positions addObject:[NSValue valueWithCGPoint:CGPointMake(buttonHorizontalMargin + width/1.8,
                                                                        buttonVerticalMargin / 2 + height / 2)]];
             [self adjustOffsetForPositions:positions withX:0 withY:(height - width) / 2];
         }
@@ -991,15 +991,15 @@
         {
             CGFloat a = (2 * radius + buttonInclinedMargin) / sqrt(2);
             [positions addObject:[NSValue valueWithCGPoint:CGPointMake(0,
-                                                                       0)]];
+                                                                       -a*1.4)]];
             [positions addObject:[NSValue valueWithCGPoint:CGPointMake(a,
-                                                                       -a)]];
-            [positions addObject:[NSValue valueWithCGPoint:CGPointMake(a,
+                                                                       -a*0.4)]];
+            [positions addObject:[NSValue valueWithCGPoint:CGPointMake(a*0.7,
+                                                                       a)]];
+            [positions addObject:[NSValue valueWithCGPoint:CGPointMake(-a*0.7,
                                                                        a)]];
             [positions addObject:[NSValue valueWithCGPoint:CGPointMake(-a,
-                                                                       a)]];
-            [positions addObject:[NSValue valueWithCGPoint:CGPointMake(-a,
-                                                                       -a)]];
+                                                                       -a*0.4)]];
         }
             break;
         case VHButtonPlace_SC_6_1:
