@@ -214,7 +214,7 @@
             [positions addObject:[NSValue valueWithCGPoint:CGPointMake(-buttonHorizontalMargin - width,
                                                                        -buttonVerticalMargin / 2 - height / 2)]];
             [positions addObject:[NSValue valueWithCGPoint:CGPointMake(0,
-                                                                       -buttonVerticalMargin / 2 - height / 2)]];
+                                                                      -buttonVerticalMargin / 2 - height / 2)]];
             [positions addObject:[NSValue valueWithCGPoint:CGPointMake(buttonHorizontalMargin + width,
                                                                        -buttonVerticalMargin / 2 - height / 2)]];
             [positions addObject:[NSValue valueWithCGPoint:CGPointMake(-buttonHorizontalMargin / 2 - width / 2,
@@ -375,7 +375,7 @@
                                                                        buttonVerticalMargin + height)]];
             [positions addObject:[NSValue valueWithCGPoint:CGPointMake(buttonHorizontalMargin + width,
                                                                        buttonVerticalMargin + height)]];
-            
+
             [self adjustOffsetForPositions:positions withX:0 withY:(height - width) / 2];
         }
             break;
@@ -769,7 +769,7 @@
     }
     
     return positions;
-    
+
 }
 
 - (NSMutableArray<NSValue *> *)positionsWithEnum:(VHButtonPlaceEnum)placeEnum
@@ -1474,7 +1474,7 @@
             NSAssert(NO, @"Button place enum not found!");
             break;
     }
-    
+
     for (int i = 0; i < positions.count; i++)
     {
         CGPoint point = [[positions objectAtIndex:i] CGPointValue];
@@ -1728,7 +1728,7 @@
         CGPoint point = [[positions objectAtIndex:i] CGPointValue];
         [positions setObject:[NSValue valueWithCGPoint:CGPointMake(point.x + widthOffset, point.y + heightOffset)] atIndexedSubscript:i];
     }
-    
+
     
     return positions;
 }
