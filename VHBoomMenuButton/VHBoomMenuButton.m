@@ -449,80 +449,86 @@
         goneView.alpha = 0;
     }
     
+    //    [CATransaction begin];
+    //    [CATransaction setCompletionBlock:^(void)
+    //     {
+    piece.hidden = YES;
+    button.hidden = NO;
+    
     [CATransaction begin];
     [CATransaction setCompletionBlock:^(void)
      {
-         piece.hidden = YES;
-         button.hidden = NO;
-         
-         [CATransaction begin];
-         [CATransaction setCompletionBlock:^(void)
-          {
-              self.animatingViewsNumber--;
-          }];
-         
-         CAAnimationGroup *group = [CAAnimationGroup animation];
-         group.duration = self.duration;
-         group.removedOnCompletion = YES;
-         group.fillMode = kCAFillModeForwards;
-         
-         
-         CAKeyframeAnimation *xAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position.x"];
-         xAnimation.values = xs;
-         
-         CAKeyframeAnimation *yAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position.y"];
-         yAnimation.values = ys;
-         
-         CAKeyframeAnimation *scaleAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
-         scaleAnimation.values = [[VHAnimationManager sharedManager] calculateScale:self.showScaleEaseEnum
-                                                                             frames:self.frames
-                                                                         startScale:piece.frame.size.width / button.frame.size.width
-                                                                           endScale:1];
-         
-         CAKeyframeAnimation *opacityAnimation = [CAKeyframeAnimation animationWithKeyPath:@"opacity"];
-         opacityAnimation.values = @[@0, @1];
-         opacityAnimation.duration = self.duration;
-         opacityAnimation.removedOnCompletion = NO;
-         opacityAnimation.fillMode = kCAFillModeForwards;
-         for (UIView *goneView in button.goneViews)
-         {
-             [goneView.layer addAnimation:opacityAnimation forKey:nil];
-         }
-         
-         CAKeyframeAnimation *rotateAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation.z"];
-         rotateAnimation.values = [[VHAnimationManager sharedManager] calculateRotate:self.showRotateEaseEnum frames:self.frames startRotate:0 endRotate:self.rotationDegree];
-         rotateAnimation.duration = self.duration;
-         rotateAnimation.removedOnCompletion = NO;
-         rotateAnimation.fillMode = kCAFillModeForwards;
-         for (UIView *rotateView in button.rotateViews)
-         {
-             // http://joeshang.github.io/2014/12/19/understand-anchorpoint-position-frame/
-             if (rotateView.frame.size.width == 0 || rotateView.frame.size.height == 0) continue;
-             CGFloat anchorPointX = (button.rotateAnchorPoint.x - (rotateView.frame.origin.x + rotateView.frame.size.width / 2)) / rotateView.frame.size.width + 0.5;
-             CGFloat anchorPointY = (button.rotateAnchorPoint.y - (rotateView.frame.origin.y + rotateView.frame.size.height / 2)) / rotateView.frame.size.height + 0.5;
-             CGRect originalFrame = rotateView.layer.frame;
-             [rotateView.layer setAnchorPoint:CGPointMake(anchorPointX, anchorPointY)];
-             rotateView.layer.frame = originalFrame;
-             [rotateView.layer addAnimation:rotateAnimation forKey:nil];
-         }
-         
-         button.frame = CGRectMake(endPosition.x - button.frame.size.width / 2, endPosition.y - button.frame.size.height / 2, button.frame.size.width, button.frame.size.height);
-         button.layer.frame = button.frame;
-         
-         [group setAnimations:@[xAnimation, yAnimation, scaleAnimation]];
-         [button.layer addAnimation:group forKey:[NSString stringWithFormat:@"%d", index]];
-         [CATransaction commit];
-
+         self.animatingViewsNumber--;
      }];
     
-    CAKeyframeAnimation *scaleAnimationAtFirst = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
-    scaleAnimationAtFirst.values = @[@(piece.frame.size.width / button.frame.size.width)];
-    scaleAnimationAtFirst.duration = delayFactor * self.delay;
-    scaleAnimationAtFirst.removedOnCompletion = NO;
-    scaleAnimationAtFirst.fillMode = kCAFillModeForwards;
-    [button.layer addAnimation:scaleAnimationAtFirst forKey:[NSString stringWithFormat:@"%d", index]];
+    CAAnimationGroup *group = [CAAnimationGroup animation];
+    group.duration = self.duration;
+    group.removedOnCompletion = YES;
+    group.fillMode = kCAFillModeForwards;
+    group.beginTime = [button.layer convertTime:CACurrentMediaTime() fromLayer:nil] + delayFactor * self.delay;
     
+    CAKeyframeAnimation *xAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position.x"];
+    xAnimation.values = xs;
+    
+    CAKeyframeAnimation *yAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position.y"];
+    yAnimation.values = ys;
+    
+    CAKeyframeAnimation *scaleAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
+    scaleAnimation.values = [[VHAnimationManager sharedManager] calculateScale:self.showScaleEaseEnum
+                                                                        frames:self.frames
+                                                                    startScale:piece.frame.size.width / button.frame.size.width
+                                                                      endScale:1];
+    
+    CAKeyframeAnimation *opacityAnimation = [CAKeyframeAnimation animationWithKeyPath:@"opacity"];
+    opacityAnimation.values = @[@0, @1];
+    opacityAnimation.duration = self.duration;
+    opacityAnimation.removedOnCompletion = NO;
+    opacityAnimation.fillMode = kCAFillModeForwards;
+    opacityAnimation.beginTime = [button.layer convertTime:CACurrentMediaTime() fromLayer:nil] + delayFactor * self.delay;
+    
+    for (UIView *goneView in button.goneViews)
+    {
+        [goneView.layer addAnimation:opacityAnimation forKey:nil];
+    }
+    
+    CAKeyframeAnimation *rotateAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation.z"];
+    rotateAnimation.values = [[VHAnimationManager sharedManager] calculateRotate:self.showRotateEaseEnum frames:self.frames startRotate:0 endRotate:self.rotationDegree];
+    rotateAnimation.duration = self.duration;
+    rotateAnimation.removedOnCompletion = NO;
+    rotateAnimation.fillMode = kCAFillModeForwards;
+    rotateAnimation.beginTime = [button.layer convertTime:CACurrentMediaTime() fromLayer:nil] + delayFactor * self.delay;
+    
+    for (UIView *rotateView in button.rotateViews)
+    {
+        // http://joeshang.github.io/2014/12/19/understand-anchorpoint-position-frame/
+        if (rotateView.frame.size.width == 0 || rotateView.frame.size.height == 0) continue;
+        CGFloat anchorPointX = (button.rotateAnchorPoint.x - (rotateView.frame.origin.x + rotateView.frame.size.width / 2)) / rotateView.frame.size.width + 0.5;
+        CGFloat anchorPointY = (button.rotateAnchorPoint.y - (rotateView.frame.origin.y + rotateView.frame.size.height / 2)) / rotateView.frame.size.height + 0.5;
+        CGRect originalFrame = rotateView.layer.frame;
+        [rotateView.layer setAnchorPoint:CGPointMake(anchorPointX, anchorPointY)];
+        rotateView.layer.frame = originalFrame;
+        [rotateView.layer addAnimation:rotateAnimation forKey:nil];
+    }
+    
+    button.frame = CGRectMake(endPosition.x - button.frame.size.width / 2, endPosition.y - button.frame.size.height / 2, button.frame.size.width, button.frame.size.height);
+    button.layer.frame = button.frame;
+    
+    [group setAnimations:@[xAnimation, yAnimation, scaleAnimation]];
+    [button.layer addAnimation:group forKey:[NSString stringWithFormat:@"%d", index]];
     [CATransaction commit];
+    
+    //     }];
+    //
+    //    CAKeyframeAnimation *scaleAnimationAtFirst = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
+    //    scaleAnimationAtFirst.values = @[@(piece.frame.size.width / button.frame.size.width)];
+    //    scaleAnimationAtFirst.duration = 0;
+    //    scaleAnimationAtFirst.removedOnCompletion = NO;
+    //    scaleAnimationAtFirst.fillMode = kCAFillModeForwards;
+    //
+    //    [button.layer addAnimation:scaleAnimationAtFirst forKey:[NSString stringWithFormat:@"%d", index]];
+    //
+    //
+    //    [CATransaction commit];
 }
 
 /**
@@ -862,29 +868,29 @@
             }
             break;
         case VHOrderRandom:
+        {
+            BOOL used[size];
+            for (int i = 0; i < size; i++)
             {
-                BOOL used[size];
-                for (int i = 0; i < size; i++)
+                used[i] = NO;
+            }
+            int count = 0;
+            while (YES)
+            {
+                int r = arc4random() % size;
+                if (used[r] == NO)
                 {
-                    used[i] = NO;
-                }
-                int count = 0;
-                while (YES)
-                {
-                    int r = arc4random() % size;
-                    if (used[r] == NO)
+                    used[r] = YES;
+                    [indexs addObject:[NSNumber numberWithInteger:r]];
+                    count++;
+                    
+                    if (count == size)
                     {
-                        used[r] = YES;
-                        [indexs addObject:[NSNumber numberWithInteger:r]];
-                        count++;
-                        
-                        if (count == size)
-                        {
-                            break;
-                        }
+                        break;
                     }
                 }
             }
+        }
             break;
     }
     return indexs;

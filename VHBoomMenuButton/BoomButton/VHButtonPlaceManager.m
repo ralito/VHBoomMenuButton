@@ -214,7 +214,7 @@
             [positions addObject:[NSValue valueWithCGPoint:CGPointMake(-buttonHorizontalMargin - width,
                                                                        -buttonVerticalMargin / 2 - height / 2)]];
             [positions addObject:[NSValue valueWithCGPoint:CGPointMake(0,
-                                                                      -buttonVerticalMargin / 2 - height / 2)]];
+                                                                       -buttonVerticalMargin / 2 - height / 2)]];
             [positions addObject:[NSValue valueWithCGPoint:CGPointMake(buttonHorizontalMargin + width,
                                                                        -buttonVerticalMargin / 2 - height / 2)]];
             [positions addObject:[NSValue valueWithCGPoint:CGPointMake(-buttonHorizontalMargin / 2 - width / 2,
@@ -256,16 +256,23 @@
             break;
         case VHButtonPlace_SC_5_4:
         {
-            [positions addObject:[NSValue valueWithCGPoint:CGPointMake(-buttonHorizontalMargin - width*0.9,
-                                                                       -buttonVerticalMargin / 2 - height / 2)]];
+            
+            
+            [positions addObject:[NSValue valueWithCGPoint:CGPointMake(buttonHorizontalMargin + width/1.8,
+                                                                       buttonVerticalMargin / 2 + height / 2)]];
+            
+            
             [positions addObject:[NSValue valueWithCGPoint:CGPointMake(buttonHorizontalMargin + width*0.9,
                                                                        -buttonVerticalMargin / 2 - height / 2)]];
             [positions addObject:[NSValue valueWithCGPoint:CGPointMake(0,
                                                                        - buttonVerticalMargin / 2 - height*1.1)]];
+            
+            [positions addObject:[NSValue valueWithCGPoint:CGPointMake(-buttonHorizontalMargin - width*0.9,
+                                                                       -buttonVerticalMargin / 2 - height / 2)]];
+            
             [positions addObject:[NSValue valueWithCGPoint:CGPointMake(-buttonHorizontalMargin - width/1.8,
                                                                        buttonVerticalMargin / 2 + height / 2)]];
-            [positions addObject:[NSValue valueWithCGPoint:CGPointMake(buttonHorizontalMargin + width/1.8,
-                                                                       buttonVerticalMargin / 2 + height / 2)]];
+            
             [self adjustOffsetForPositions:positions withX:0 withY:(height - width) / 2];
         }
             break;
@@ -368,7 +375,7 @@
                                                                        buttonVerticalMargin + height)]];
             [positions addObject:[NSValue valueWithCGPoint:CGPointMake(buttonHorizontalMargin + width,
                                                                        buttonVerticalMargin + height)]];
-
+            
             [self adjustOffsetForPositions:positions withX:0 withY:(height - width) / 2];
         }
             break;
@@ -762,7 +769,7 @@
     }
     
     return positions;
-
+    
 }
 
 - (NSMutableArray<NSValue *> *)positionsWithEnum:(VHButtonPlaceEnum)placeEnum
@@ -1467,7 +1474,7 @@
             NSAssert(NO, @"Button place enum not found!");
             break;
     }
-
+    
     for (int i = 0; i < positions.count; i++)
     {
         CGPoint point = [[positions objectAtIndex:i] CGPointValue];
@@ -1721,7 +1728,7 @@
         CGPoint point = [[positions objectAtIndex:i] CGPointValue];
         [positions setObject:[NSValue valueWithCGPoint:CGPointMake(point.x + widthOffset, point.y + heightOffset)] atIndexedSubscript:i];
     }
-
+    
     
     return positions;
 }
